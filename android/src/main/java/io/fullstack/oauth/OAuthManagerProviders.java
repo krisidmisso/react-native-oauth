@@ -268,18 +268,32 @@ public class OAuthManagerProviders {
       builder.scope(scopeStr);
     }
 
+    boolean rawScopes = (cfg.containsKey("rawScopes") && ((String)cfg.get("rawScopes")).equalsIgnoreCase("true"));
+	
     if (opts != null && opts.hasKey("scopes")) {
       scopes = (String) opts.getString("scopes");
-      String scopeStr = OAuthManagerProviders.getScopeString(scopes, ",");
+      String scopeStr = null;
+	  
+      if (!rawScopes)
+        scopeStr = OAuthManagerProviders.getScopeString(scopes, ",");
+      else
+        scopeStr = scopes;
+	
       builder.scope(scopeStr);
     }
-
+	
+	
+	
+	
+	
+	
     if (callbackUrl != null) {
       builder.callback(callbackUrl);
     }
 
     return builder;
   }
+  
 
   /**
    * Convert a list of scopes by space or string into an array
